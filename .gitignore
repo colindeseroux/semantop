@@ -1,0 +1,3 @@
+/models/*
+!/models/
+!/models/frWac_no_postag_phrase_500_cbow_cut10_custom.bin
