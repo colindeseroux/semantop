@@ -26,9 +26,15 @@ If you find Semantop is useful, please consider giving us a star 🌟 and citing
     year = {2025}
 }
 
+@resource{FRWac2Vec,
+    author = {Jean-Philippe Fauconnier},
+    title = {FRWac2Vec},
+    url = {https://fauconnier.github.io/#data},
+
+}
+
 @resource{French-Dictionary,
     author = {Hussem Ben Belgacem},
-    month = jan,
     title = {French-Dictionary},
     url = {https://github.com/hbenbel/French-Dictionary},
     year = {2022}
@@ -36,7 +42,6 @@ If you find Semantop is useful, please consider giving us a star 🌟 and citing
 
 @resource{Donnees-Linguistiques,
     author = {Matthieu Constant},
-    month = jan,
     title = {Donnees Linguistiques},
     url = {https://infolingu.univ-mlv.fr/DonneesLinguistiques/Dictionnaires/telechargement.html},
 }
