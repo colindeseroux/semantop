@@ -1,0 +1,158 @@
+openapi: 3.0.0
+
+info:
+  title: Semantop project API
+  description: API documentation for the Semantop project.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3001
+    description: Local development server
+
+tags:
+  - name: Hello
+    description: Hello World! for test API
+  - name: Semantic
+    description: Semantic operations
+
+paths:
+  /hello:
+    get:
+      tags:
+        - Hello
+      summary: Returns a greeting message (Hello World!)
+      operationId: helloWorld
+      responses:
+        "200":
+          description: Successful response
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Hello World!
+        "500":
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: An error occurred
+  /api/hello:
+    get:
+      tags:
+        - Hello
+      summary: Returns a greeting message (Hello World!)
+      operationId: helloWorld
+      responses:
+        "200":
+          description: Successful response
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Hello World!
+        "500":
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: An error occurred
+
+  /api/word:
+    post:
+      tags:
+        - Semantic
+      summary: Generates a new word search
+      operationId: generateNewWordSearch
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "exemple"
+                ref:
+                  type: string
+                  example: "reference"
+      responses:
+        "201":
+          description: Word search created successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "searchReference"
+        "404":
+          description: Word not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Word not found"
+        "409":
+          description: Word search already exists
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Word search already exists"
+        "500":
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "An error occurred"
+    get:
+      tags:
+        - Semantic
+      summary: Gets the similarity place between two words
+      operationId: getSimilarityPlaceBetweenWord
+      parameters:
+        - name: ref
+          in: query
+          required: true
+          schema:
+            type: string
+            example: "reference"
+        - name: name
+          in: query
+          required: true
+          schema:
+            type: string
+            example: "exemple"
+      responses:
+        "200":
+          description: Similarity place found successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  word:
+                    type: string
+                    example: "mer"
+                  similarityScore:
+                    type: decimal
+                    example: 0.06
+                  place:
+                    type: integer
+                    example: -1
+        "404":
+          description: Word search or word not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "Word search or word not found"
+        "500":
+          description: Internal server error
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "An error occurred"
