@@ -79,22 +79,22 @@ public class WordService {
 	}
 
 	/**
-	 * Finds the top 1000 similar words for a given word name.
+	 * Finds the top 999 similar words for a given word name.
 	 * 
 	 * @param name -> String : the name of the word to find similar words for.
 	 * 
 	 * @return List<SimilarWord> -> a list of SimilarWord objects containing the
 	 *         similar words, their similarity scores, and their places.
 	 */
-	private List<SimilarWord> find1000SimilarWords(String name) {
-		L.function("Finding 1000 similar words | name: {}", name);
+	private List<SimilarWord> find999SimilarWords(String name) {
+		L.function("Finding 999 similar words | name: {}", name);
 
-		List<String> similarWordNames = (List<String>) this.wordVectors.wordsNearest(name, 1000);
+		List<String> similarWordNames = (List<String>) this.wordVectors.wordsNearest(name, 999);
 		List<SimilarWord> similarWords = new ArrayList<>();
 
 		for (String word : similarWordNames) {
 			double sim = this.wordVectors.similarity(name, word);
-			int place = similarWordNames.indexOf(word) + 1;
+			int place = similarWordNames.indexOf(word) + 2;
 			similarWords.add(new SimilarWord(word, sim, place));
 		}
 
@@ -145,7 +145,8 @@ public class WordService {
 			}
 		}
 
-		List<SimilarWord> similarWords = this.find1000SimilarWords(word.getName());
+		List<SimilarWord> similarWords = this.find999SimilarWords(word.getName());
+		similarWords.add(new SimilarWord(word.getName(), 1.0, 1));
 
 		wordSearch = new WordSearch();
 		wordSearch.setWord(word);
