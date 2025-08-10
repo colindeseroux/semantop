@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import fr.phenix333.logger.MyLogger;
 
 @CrossOrigin
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = { "fr.phenix333.semantop", "fr.phenix333.mail" })
 public class ApiApplication implements CommandLineRunner {
 
 	private static final MyLogger L = MyLogger.create(ApiApplication.class);

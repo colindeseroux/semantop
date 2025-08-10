@@ -3,8 +3,8 @@ spring.application.name=api
 # Api Properties
 server.port=3001
 spring.main.allow-bean-definition-overriding=true
-cors.allowed.origins=*
-model.path=../models/frWac_no_postag_no_phrase_700_skip_cut50_custom.bin
+uri.authorized=/ws, /swagger, /public, /api/auth, /hello, /api/hello
+api.base.url=http://localhost:3001/api
 
 # Postgres Properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/semantop
@@ -12,7 +12,7 @@ spring.datasource.username=postgres
 spring.datasource.password=123
 
 # MySQL Properties
-#spring.datasource.url=jdbc:mysql://localhost:3306/testdb
+#spring.datasource.url=jdbc:mysql://localhost:3306/semantop
 #spring.datasource.username=mysql
 #spring.datasource.password=123
 
@@ -24,3 +24,17 @@ spring.jpa.properties.hibernate.format_sql=true
 spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
 spring.jpa.properties.hibernate.type=trace
 spring.jpa.show-sql=false
+
+# Mail properties
+spring.mail.host=<smtp.example.com>
+spring.mail.port=<port>
+spring.mail.username=<email>
+spring.mail.password=<application password>
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+
+# Security Properties
+jwt.secret=1234567890123456789012345678901234567890123456789012345678901234
+cors.allowed.origins=*
+# 12 heures
+jwt.expiration=43200

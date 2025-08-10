@@ -10,39 +10,18 @@ servers:
     description: Local development server
 
 tags:
-  - name: Hello
-    description: Hello World! for test API
-  - name: Semantic
-    description: Semantic operations
+  - name: General
+    description: General API endpoints
+  - name: Authentication
+    description: User authentication and account management operations
 
 paths:
-  /hello:
-    get:
-      tags:
-        - Hello
-      summary: Returns a greeting message (Hello World!)
-      operationId: helloWorld
-      responses:
-        "200":
-          description: Successful response
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: Hello World!
-        "500":
-          description: Internal server error
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: An error occurred
   /api/hello:
     get:
       tags:
-        - Hello
-      summary: Returns a greeting message (Hello World!)
-      operationId: helloWorld
+        - General
+      summary: Hello World endpoint
+      description: Simple hello world endpoint for testing API connectivity
       responses:
         "200":
           description: Successful response
@@ -50,109 +29,260 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: Hello World!
-        "500":
-          description: Internal server error
+                example: "Hello World!"
+
+  /hello:
+    get:
+      tags:
+        - General
+      summary: Hello World endpoint (alternative)
+      description: Alternative hello world endpoint for testing API connectivity
+      responses:
+        "200":
+          description: Successful response
           content:
             text/plain:
               schema:
                 type: string
-                example: An error occurred
+                example: "Hello World!"
 
-  /api/word:
+  /api/auth:
     post:
       tags:
-        - Semantic
-      summary: Generates a new word search
-      operationId: generateNewWordSearch
+        - Authentication
+      summary: User registration
+      description: Registers a new user account
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          application/json:
             schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: "exemple"
-                ref:
-                  type: string
-                  example: "reference"
+              $ref: "#/components/schemas/UserRegistration"
       responses:
         "201":
-          description: Word search created successfully
+          description: User registered successfully
           content:
             text/plain:
               schema:
                 type: string
-                example: "searchReference"
-        "404":
-          description: Word not found
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: "Word not found"
+                example: "VerificationCodeSentToEmail"
+        "400":
+          description: Bad request - Invalid user data
         "409":
-          description: Word search already exists
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: "Word search already exists"
+          description: Conflict - User already exists
         "500":
           description: Internal server error
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: "An error occurred"
     get:
       tags:
-        - Semantic
-      summary: Gets the similarity place between two words
-      operationId: getSimilarityPlaceBetweenWord
+        - Authentication
+      summary: User login
+      description: Authenticates a user with email and password
       parameters:
-        - name: ref
+        - name: email
           in: query
           required: true
+          description: User's email address
           schema:
             type: string
-            example: "reference"
-        - name: name
+            format: email
+            example: "contact@colindeseroux.fr"
+        - name: password
           in: query
           required: true
+          description: User's password
           schema:
             type: string
-            example: "exemple"
+            format: password
+            example: "Test123#"
       responses:
         "200":
-          description: Similarity place found successfully
+          description: Successful authentication
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  word:
-                    type: string
-                    example: "mer"
-                  similarityScore:
-                    type: decimal
-                    example: 0.06
-                  place:
-                    type: integer
-                    example: -1
-        "404":
-          description: Word search or word not found
-          content:
-            text/plain:
-              schema:
                 type: string
-                example: "Word search or word not found"
+                description: JSON string containing user ID, pseudo, and JWT token
+                example: '{"id": 1, "pseudo": "Reboot333", "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."}'
+        "400":
+          description: Bad request - Invalid credentials
+        "401":
+          description: Unauthorized - Authentication failed
+        "403":
+          description: Forbidden - Account locked due to too many failed attempts or account not validated
         "500":
           description: Internal server error
+    patch:
+      tags:
+        - Authentication
+      summary: Password forgotten
+      description: Initiates password reset process by sending verification code to email
+      parameters:
+        - name: email
+          in: query
+          required: true
+          description: User's email address
+          schema:
+            type: string
+            format: email
+            example: "contact@colindeseroux.fr"
+      responses:
+        "200":
+          description: Verification code sent successfully
           content:
             text/plain:
               schema:
                 type: string
-                example: "An error occurred"
+                example: "VerificationCodeSentToEmail"
+        "400":
+          description: Bad request - Invalid email
+        "404":
+          description: Not found - Email not registered
+        "500":
+          description: Internal server error
+    put:
+      tags:
+        - Authentication
+      summary: Reset password
+      description: Changes user's password using verification code
+      parameters:
+        - name: email
+          in: query
+          required: true
+          description: User's email address
+          schema:
+            type: string
+            format: email
+            example: "contact@colindeseroux.fr"
+        - name: code
+          in: query
+          required: true
+          description: Verification code received by email
+          schema:
+            type: string
+            example: "123456"
+        - name: password
+          in: query
+          required: true
+          description: New password
+          schema:
+            type: string
+            format: password
+            example: "Test123#"
+      responses:
+        "200":
+          description: Password changed successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+        "400":
+          description: Bad request - Invalid parameters
+        "401":
+          description: Unauthorized - Invalid verification code
+        "500":
+          description: Internal server error
+
+  /api/auth/validate:
+    get:
+      tags:
+        - Authentication
+      summary: Validate account
+      description: Validates user's account using email and verification code
+      parameters:
+        - name: email
+          in: query
+          required: true
+          description: User's email address
+          schema:
+            type: string
+            format: email
+            example: "contact@colindeseroux.fr"
+        - name: code
+          in: query
+          required: true
+          description: Verification code received by email
+          schema:
+            type: string
+            example: "123456"
+      responses:
+        "200":
+          description: Account validated successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+        "400":
+          description: Bad request - Invalid parameters
+        "401":
+          description: Unauthorized - Invalid verification code
+        "404":
+          description: Not found - Email not found
+        "500":
+          description: Internal server error
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: User's unique identifier
+          example: 1
+        pseudo:
+          type: string
+          description: User's unique pseudonym
+          example: "Reboot333"
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: "contact@colindeseroux.fr"
+        password:
+          type: string
+          format: password
+          description: User's encrypted password
+          example: "$2a$10$..."
+        loginAttempts:
+          type: integer
+          description: Number of failed login attempts
+          example: 0
+      required:
+        - pseudo
+        - email
+        - password
+
+    UserRegistration:
+      type: object
+      properties:
+        pseudo:
+          type: string
+          description: User's unique pseudonym
+          example: "Reboot333"
+        email:
+          type: string
+          format: email
+          description: User's email address
+          example: "contact@colindeseroux.fr"
+        password:
+          type: string
+          format: password
+          description: User's password (will be encrypted)
+          example: "Test123#"
+      required:
+        - pseudo
+        - email
+        - password
+
+  securitySchemes:
+    JwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token for authentication
+
+security:
+  - JwtAuth: []

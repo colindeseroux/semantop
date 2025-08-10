@@ -1,4 +1,4 @@
-package fr.phenix333.semantop.configuration;
+package fr.phenix333.semantop.configuration.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

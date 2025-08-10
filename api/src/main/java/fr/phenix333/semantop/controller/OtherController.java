@@ -22,7 +22,8 @@ public class OtherController {
 	}
 
 	/**
-	 * Endpoint to serve the Swagger UI HTML file.
+	 * Endpoint to serve the Swagger UI HTML file. Visible only on localhost (with
+	 * my nginx in production, I only redirect to /api.)
 	 *
 	 * @return String -> Redirects to the static swagger.html file
 	 */

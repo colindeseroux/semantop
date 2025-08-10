@@ -1,0 +1,29 @@
+{
+    "properties": [
+        {
+            "name": "jwt.secret",
+            "type": "java.lang.String",
+            "description": "jwt.secret"
+        },
+        {
+            "name": "jwt.expiration",
+            "type": "java.lang.String",
+            "description": "jwt.expiration"
+        },
+        {
+            "name": "uri.authorized",
+            "type": "java.lang.String",
+            "description": "uri.authorized"
+        },
+        {
+            "name": "cors.allowed.origins",
+            "type": "java.lang.String",
+            "description": "cors.allowed.origins"
+        },
+        {
+            "name": "api.base.url",
+            "type": "java.lang.String",
+            "description": "A description for 'api.base.url'"
+        }
+    ]
+}
