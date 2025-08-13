@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -107,7 +106,7 @@ public class AuthController {
 	 * 
 	 * @return ResponseEntity<String> -> "OK"
 	 */
-	@PutMapping
+	@PatchMapping("/new-password")
 	public ResponseEntity<String> newPassword(@RequestParam String email, @RequestParam String code,
 			@RequestParam String password, HttpServletRequest request) throws Exception {
 		L.function("email : {}", email);
