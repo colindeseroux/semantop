@@ -275,22 +275,36 @@ public class UserService {
 	 *
 	 * @return User -> The newly created user
 	 */
-	@Transactional
 	public User createUser() {
 		L.function("");
 
-		User user = new User();
-		user.setPseudo(this.userRepository.getNextPseudo());
-		String password = UUID.randomUUID().toString();
-		user.setEmail(String.format("%s@random.fr", user.getPseudo()));
-		user.setPassword(password);
-		user.setLoginAttempts(0);
+		String uuid = UUID.randomUUID().toString();
 
-		this.userRepository.save(user);
+		User user = this.saveRandomUser(uuid);
 
-		user.setPasswordWithoutBCrypt(password);
+		user.setPasswordWithoutBCrypt(uuid);
 
 		return user;
+	}
+
+	/**
+	 * Saves a random user with a generated UUID as the password.
+	 * 
+	 * @param uuid -> String : the UUID to use as the password
+	 * 
+	 * @return User -> The newly created user
+	 */
+	@Transactional
+	public User saveRandomUser(String uuid) {
+		L.function("uuid : {}", uuid);
+
+		User user = new User();
+		user.setPseudo(this.userRepository.getNextPseudo());
+		user.setEmail(String.format("%s@random.fr", user.getPseudo()));
+		user.setPassword(uuid);
+		user.setLoginAttempts(0);
+
+		return this.userRepository.save(user);
 	}
 
 }
