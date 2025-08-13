@@ -14,6 +14,8 @@ tags:
     description: General API endpoints
   - name: Authentication
     description: User authentication and account management operations
+  - name: User
+    description: User management operations
 
 paths:
   /api/hello:
@@ -139,7 +141,48 @@ paths:
           description: Not found - Email not registered
         "500":
           description: Internal server error
-    put:
+
+  /api/auth/validate:
+    get:
+      tags:
+        - Authentication
+      summary: Validate account
+      description: Validates user's account using email and verification code
+      parameters:
+        - name: email
+          in: query
+          required: true
+          description: User's email address
+          schema:
+            type: string
+            format: email
+            example: "contact@colindeseroux.fr"
+        - name: code
+          in: query
+          required: true
+          description: Verification code received by email
+          schema:
+            type: string
+            example: "123456"
+      responses:
+        "200":
+          description: Account validated successfully
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "OK"
+        "400":
+          description: Bad request - Invalid parameters
+        "401":
+          description: Unauthorized - Invalid verification code
+        "404":
+          description: Not found - Email not found
+        "500":
+          description: Internal server error
+
+  /api/auth/new-password:
+    patch:
       tags:
         - Authentication
       summary: Reset password
@@ -183,42 +226,19 @@ paths:
         "500":
           description: Internal server error
 
-  /api/auth/validate:
-    get:
+  /api/user:
+    post:
       tags:
-        - Authentication
-      summary: Validate account
-      description: Validates user's account using email and verification code
-      parameters:
-        - name: email
-          in: query
-          required: true
-          description: User's email address
-          schema:
-            type: string
-            format: email
-            example: "contact@colindeseroux.fr"
-        - name: code
-          in: query
-          required: true
-          description: Verification code received by email
-          schema:
-            type: string
-            example: "123456"
+        - User
+      summary: Create random user
+      description: Create a new random user
       responses:
-        "200":
-          description: Account validated successfully
+        "201":
+          description: User created successfully
           content:
-            text/plain:
+            application/json:
               schema:
-                type: string
-                example: "OK"
-        "400":
-          description: Bad request - Invalid parameters
-        "401":
-          description: Unauthorized - Invalid verification code
-        "404":
-          description: Not found - Email not found
+                $ref: "#/components/schemas/User"
         "500":
           description: Internal server error
 
