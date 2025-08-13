@@ -2,4 +2,3 @@
 /.metadata/
 
 .env
-*application.properties
