@@ -14,4 +14,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	@Query("SELECT CONCAT('User', COUNT(u)) FROM User u")
 	String getNextPseudo();
 
+	boolean existsByEmail(String email);
+
+	boolean existsByPseudo(String pseudo);
+
 }

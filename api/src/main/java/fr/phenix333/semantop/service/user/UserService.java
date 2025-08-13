@@ -3,6 +3,7 @@ package fr.phenix333.semantop.service.user;
 import java.io.IOException;
 import java.util.UUID;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -103,25 +104,52 @@ public class UserService {
 	 * Signs up a new user.
 	 *
 	 * @param user -> User : the user to sign up
-	 * 
+	 *
 	 * @return String -> A message indicating the result of the signup
-	 * 
-	 * @throws IncorrectException if the user is not valid
-	 * @throws MessagingException if an error occurs while sending the email
-	 * @throws IOException        if an error occurs while processing the user data
-	 * 
+	 *
+	 * @throws IncorrectException              if the user is not valid
+	 * @throws MessagingException              if an error occurs while sending the
+	 *                                         email
+	 * @throws IOException                     if an error occurs while processing
+	 *                                         the user data
+	 * @throws DataIntegrityViolationException if there is a database integrity
+	 *                                         violation
+	 *
 	 */
 	@Transactional
-	public String signup(User user) throws IncorrectException, MessagingException, IOException {
+	public String signup(User user)
+			throws IncorrectException, MessagingException, IOException, DataIntegrityViolationException {
 		L.function("email : {}", user.getEmail());
 
 		this.properUser(user);
-
-		this.userRepository.save(user);
+		this.checkUniqueness(user);
 
 		this.verificationCodeService.createAndSendVerificationCode(user.getEmail(), "new_account");
 
+		this.userRepository.save(user);
+
 		return "VerificationCodeSentToEmail";
+	}
+
+	/**
+	 * Verify the uniqueness of the user's email and pseudo.
+	 *
+	 * @param user -> User : the user to check
+	 *
+	 * @return boolean -> true if the email and pseudo are unique
+	 */
+	private boolean checkUniqueness(User user) throws DataIntegrityViolationException {
+		L.function("email : {}, pseudo : {}", user.getEmail(), user.getPseudo());
+
+		if (this.userRepository.existsByEmail(user.getEmail())) {
+			throw new DataIntegrityViolationException("duplicate key : Key (email)=");
+		}
+
+		if (this.userRepository.existsByPseudo(user.getPseudo())) {
+			throw new DataIntegrityViolationException("duplicate key : Key (pseudo)=");
+		}
+
+		return true;
 	}
 
 	/**
