@@ -9,8 +9,8 @@
 			<PatternLayout
 				pattern="%d{dd-MM-yyyy HH:mm:ss,SSS} %t %p %c{1} %M -> %m%n" />
 		</Console>
-		<RollingFile name="fatal_log" fileName="Logs/fatal.log"
-			filePattern="Logs/fatal-%d{dd-MM-yyyy}-%i.log.gz">
+		<RollingFile name="fatal_log" fileName="logs/fatal.log"
+			filePattern="logs/fatal-%d{dd-MM-yyyy}-%i.log.gz">
 			<PatternLayout>
 				<Pattern>%d{dd-MM-yyyy HH:mm:ss,SSS} %t %p %c{1} %M -> %m%n</Pattern>
 			</PatternLayout>
@@ -20,8 +20,8 @@
 			</Policies>
 			<DefaultRolloverStrategy max="20" />
 		</RollingFile>
-		<RollingFile name="error_log" fileName="Logs/error.log"
-			filePattern="Logs/error-%d{dd-MM-yyyy}-%i.log.gz">
+		<RollingFile name="error_log" fileName="logs/error.log"
+			filePattern="logs/error-%d{dd-MM-yyyy}-%i.log.gz">
 			<PatternLayout>
 				<Pattern>%d{dd-MM-yyyy HH:mm:ss,SSS} %t %p %c{1} %M -> %m%n</Pattern>
 			</PatternLayout>
@@ -31,8 +31,8 @@
 			</Policies>
 			<DefaultRolloverStrategy max="20" />
 		</RollingFile>
-		<RollingFile name="warn_log" fileName="Logs/warn.log"
-			filePattern="Logs/warn-%d{dd-MM-yyyy}-%i.log.gz">
+		<RollingFile name="warn_log" fileName="logs/warn.log"
+			filePattern="logs/warn-%d{dd-MM-yyyy}-%i.log.gz">
 			<PatternLayout>
 				<Pattern>%d{dd-MM-yyyy HH:mm:ss,SSS} %t %p %c{1} %M -> %m%n</Pattern>
 			</PatternLayout>
@@ -42,8 +42,8 @@
 			</Policies>
 			<DefaultRolloverStrategy max="20" />
 		</RollingFile>
-		<RollingFile name="info_log" fileName="Logs/info.log"
-			filePattern="Logs/info-%d{dd-MM-yyyy}-%i.log.gz">
+		<RollingFile name="info_log" fileName="logs/info.log"
+			filePattern="logs/info-%d{dd-MM-yyyy}-%i.log.gz">
 			<PatternLayout>
 				<Pattern>%d{dd-MM-yyyy HH:mm:ss,SSS} %t %p %c{1} %M -> %m%n</Pattern>
 			</PatternLayout>
@@ -53,8 +53,8 @@
 			</Policies>
 			<DefaultRolloverStrategy max="20" />
 		</RollingFile>
-		<RollingFile name="debug_log" fileName="Logs/debug.log"
-			filePattern="Logs/debug-%d{dd-MM-yyyy}-%i.log.gz">
+		<RollingFile name="debug_log" fileName="logs/debug.log"
+			filePattern="logs/debug-%d{dd-MM-yyyy}-%i.log.gz">
 			<PatternLayout>
 				<Pattern>%d{dd-MM-yyyy HH:mm:ss,SSS} %t %p %c{1} %M -> %m%n</Pattern>
 			</PatternLayout>
@@ -64,8 +64,8 @@
 			</Policies>
 			<DefaultRolloverStrategy max="20" />
 		</RollingFile>
-		<RollingFile name="function_log" fileName="Logs/function.log"
-			filePattern="Logs/function-%d{dd-MM-yyyy}-%i.log.gz">
+		<RollingFile name="function_log" fileName="logs/function.log"
+			filePattern="logs/function-%d{dd-MM-yyyy}-%i.log.gz">
 			<PatternLayout>
 				<Pattern>%d{dd-MM-yyyy HH:mm:ss,SSS} %t %p %c{1} %M -> %m%n</Pattern>
 			</PatternLayout>
