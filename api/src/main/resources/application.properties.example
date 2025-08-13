@@ -3,7 +3,7 @@ spring.application.name=api
 # Api Properties
 server.port=3001
 spring.main.allow-bean-definition-overriding=true
-uri.authorized=/ws, /swagger, /public, /api/auth, /hello, /api/hello
+uri.authorized=/ws, /swagger, /public, /api/auth, /hello, /api/hello, /api/user
 api.base.url=http://localhost:3001/api
 
 # Postgres Properties

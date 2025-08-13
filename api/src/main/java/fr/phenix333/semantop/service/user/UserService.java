@@ -1,6 +1,7 @@
 package fr.phenix333.semantop.service.user;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -267,6 +268,29 @@ public class UserService {
 		user.setLoginAttempts(0);
 
 		return this.userRepository.save(user);
+	}
+
+	/**
+	 * Creates a new user with a random pseudo and password.
+	 *
+	 * @return User -> The newly created user
+	 */
+	@Transactional
+	public User createUser() {
+		L.function("");
+
+		User user = new User();
+		user.setPseudo(this.userRepository.getNextPseudo());
+		String password = UUID.randomUUID().toString();
+		user.setEmail(String.format("%s@random.fr", user.getPseudo()));
+		user.setPassword(password);
+		user.setLoginAttempts(0);
+
+		this.userRepository.save(user);
+
+		user.setPasswordWithoutBCrypt(password);
+
+		return user;
 	}
 
 }
