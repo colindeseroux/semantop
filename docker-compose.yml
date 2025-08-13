@@ -19,6 +19,47 @@ services:
     networks:
       semantop:
         ipv4_address: 172.35.0.2
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 30s
+      timeout: 10s
+      start_period: 40s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
+    restart: always
+
+  qdrant:
+    build:
+      context: ./qdrant
+      dockerfile: Dockerfile
+    container_name: qdrant
+    environment:
+      - TZ=Europe/Paris
+    ports:
+      - "${QDRANT_HTTP_PORT}:6333"
+      - "${QDRANT_GRPC_PORT}:6334"
+    volumes:
+      - ./qdrant/storage:/qdrant/storage
+    networks:
+      semantop:
+        ipv4_address: 172.35.0.3
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${QDRANT_HTTP_PORT}/health"]
+      interval: 30s
+      timeout: 10s
+      start_period: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+        reservations:
+          memory: 512M
     restart: always
 
 networks:
