@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.phenix333.logger.MyLogger;
@@ -16,8 +15,10 @@ import fr.phenix333.semantop.model.security.VerificationCode;
 import fr.phenix333.semantop.repository.security.VerificationCodeRepository;
 import jakarta.mail.MessagingException;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class VerificationCodeService {
 
 	private static final MyLogger L = MyLogger.create(VerificationCodeService.class);
@@ -25,12 +26,6 @@ public class VerificationCodeService {
 	private final VerificationCodeRepository verificationCodeRepository;
 
 	private final EmailService emailService;
-
-	@Autowired
-	public VerificationCodeService(VerificationCodeRepository verificationCodeRepository, EmailService emailService) {
-		this.verificationCodeRepository = verificationCodeRepository;
-		this.emailService = emailService;
-	}
 
 	/**
 	 * Generates a random 6-digit verification code.

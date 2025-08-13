@@ -17,24 +17,19 @@ import fr.phenix333.semantop.model.user.User;
 import fr.phenix333.semantop.service.security.JwtUtilService;
 import fr.phenix333.semantop.service.user.UserService;
 import jakarta.mail.MessagingException;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 
 	private static final MyLogger L = MyLogger.create(AuthService.class);
 
-	private UserService userService;
+	private final UserService userService;
 
-	private AuthenticationManager authenticationManager;
+	private final AuthenticationManager authenticationManager;
 
-	private JwtUtilService jwtUtilService;
-
-	public AuthService(UserService userService, AuthenticationManager authenticationManager,
-			JwtUtilService jwtUtilService) {
-		this.userService = userService;
-		this.authenticationManager = authenticationManager;
-		this.jwtUtilService = jwtUtilService;
-	}
+	private final JwtUtilService jwtUtilService;
 
 	/**
 	 * Authenticates a user with the provided email and password.

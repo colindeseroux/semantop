@@ -19,25 +19,21 @@ import fr.phenix333.semantop.model.user.User;
 import fr.phenix333.semantop.service.auth.AuthService;
 import fr.phenix333.semantop.service.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 
 @CrossOrigin
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/auth")
 public class AuthController {
 
 	private static final MyLogger L = MyLogger.create(AuthController.class);
 
-	private AuthService authService;
+	private final AuthService authService;
 
-	private UserService userService;
+	private final UserService userService;
 
-	private HandleException handleException;
-
-	public AuthController(AuthService authService, UserService userService, HandleException handleException) {
-		this.authService = authService;
-		this.userService = userService;
-		this.handleException = handleException;
-	}
+	private final HandleException handleException;
 
 	/**
 	 * Handles exceptions thrown by the controller.

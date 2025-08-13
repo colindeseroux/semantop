@@ -15,8 +15,10 @@ import fr.phenix333.semantop.model.user.User;
 import fr.phenix333.semantop.repository.user.UserRepository;
 import fr.phenix333.semantop.service.security.VerificationCodeService;
 import jakarta.mail.MessagingException;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
 	private static final MyLogger L = MyLogger.create(UserService.class);
@@ -26,11 +28,6 @@ public class UserService {
 	private final UserRepository userRepository;
 
 	private final VerificationCodeService verificationCodeService;
-
-	public UserService(UserRepository userRepository, VerificationCodeService verificationCodeService) {
-		this.userRepository = userRepository;
-		this.verificationCodeService = verificationCodeService;
-	}
 
 	/**
 	 * Validates the user object.

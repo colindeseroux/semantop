@@ -12,22 +12,19 @@ import fr.phenix333.logger.MyLogger;
 import fr.phenix333.semantop.exception.HandleException;
 import fr.phenix333.semantop.model.user.User;
 import fr.phenix333.semantop.service.user.UserService;
+import lombok.RequiredArgsConstructor;
 
 @CrossOrigin
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/user")
 public class UserController {
 
 	private static final MyLogger L = MyLogger.create(UserController.class);
 
-	private UserService userService;
+	private final UserService userService;
 
-	private HandleException handleException;
-
-	public UserController(UserService userService, HandleException handleException) {
-		this.userService = userService;
-		this.handleException = handleException;
-	}
+	private final HandleException handleException;
 
 	/**
 	 * Handles exceptions thrown by the controller.

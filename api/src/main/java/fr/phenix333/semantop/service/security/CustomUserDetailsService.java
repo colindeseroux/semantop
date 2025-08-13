@@ -10,17 +10,15 @@ import fr.phenix333.semantop.exception.NotFoundException;
 import fr.phenix333.semantop.model.security.CustomUserDetails;
 import fr.phenix333.semantop.model.user.User;
 import fr.phenix333.semantop.service.user.UserService;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
 	private static final MyLogger L = MyLogger.create(CustomUserDetailsService.class);
 
 	private final UserService userService;
-
-	public CustomUserDetailsService(UserService userService) {
-		this.userService = userService;
-	}
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

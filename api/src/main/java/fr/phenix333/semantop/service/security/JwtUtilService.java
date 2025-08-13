@@ -14,17 +14,15 @@ import org.springframework.stereotype.Service;
 import fr.phenix333.logger.MyLogger;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class JwtUtilService {
 
 	private static final MyLogger L = MyLogger.create(JwtUtilService.class);
 
 	private final SecretKey secretKey;
-
-	public JwtUtilService(SecretKey secretKey) {
-		this.secretKey = secretKey;
-	}
 
 	@Value("${jwt.expiration}")
 	private int jwtExpiration;
