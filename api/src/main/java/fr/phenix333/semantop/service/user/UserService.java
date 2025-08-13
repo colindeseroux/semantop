@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -114,12 +115,15 @@ public class UserService {
 	 *                                         the user data
 	 * @throws DataIntegrityViolationException if there is a database integrity
 	 *                                         violation
-	 *
 	 */
 	@Transactional
 	public String signup(User user)
 			throws IncorrectException, MessagingException, IOException, DataIntegrityViolationException {
 		L.function("email : {}", user.getEmail());
+
+		String randomUserId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+		user.setId(Long.valueOf(randomUserId));
 
 		this.properUser(user);
 		this.checkUniqueness(user);
